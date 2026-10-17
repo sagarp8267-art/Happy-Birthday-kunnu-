@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A very special birthday surprise." />
+  <title>Happy Birthday 🎂</title>
+
+  <!-- Preconnect to Google Fonts for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!--
+    Typography:
+    - "Cormorant Garamond" — expressive high-contrast serif for display/emotional moments
+    - "DM Sans" — clean, friendly geometric sans for UI & body text
+    These two contrast clearly: one romantic/cinematic, one grounded/readable.
+  -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Great+Vibes&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,900&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Core styles -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/tree.css" />
+  <!-- Cinematic scene background redesigns (CSS-only, pointer-events:none decorations) -->
+  <link rel="stylesheet" href="css/scene-backgrounds.css" />
+  <!-- GIF overlay decorations for all scenes -->
+  <link rel="stylesheet" href="css/gif-overlays.css" />
+</head>
+<body>
+
+  <!-- ─────────────────────────────────────────
+       LOADING SCREEN
+       Shown while JS modules initialise.
+       Removed by app.js once ready.
+  ──────────────────────────────────────────── -->
+  <div id="loading-screen" class="loading-screen" aria-live="polite" aria-label="Loading">
+    <div class="loading-heart"></div>
+  </div>
+
+  <!-- ─────────────────────────────────────────
+       SCENE CONTAINER
+       All scenes are injected / mounted here.
+  ──────────────────────────────────────────── -->
+  <main id="scene-container" class="scene-container" aria-live="polite"></main>
+
+  <!-- ─────────────────────────────────────────
+       COMPANION
+       Persistent across all scenes.
+  ──────────────────────────────────────────── -->
+  <aside id="companion" class="companion" aria-label="Your companion" aria-hidden="true"></aside>
+
+  <!-- ─────────────────────────────────────────
+       AUDIO CONTROLS
+       Always-accessible; positioned top-right.
+  ──────────────────────────────────────────── -->
+  <div class="audio-controls" role="group" aria-label="Audio controls">
+    <button id="btn-mute" class="audio-btn" aria-label="Toggle mute" title="Mute / Unmute">
+      <span class="audio-icon audio-icon--on" aria-hidden="true">♪</span>
+      <span class="audio-icon audio-icon--off" aria-hidden="true" hidden>♪̶</span>
+    </button>
+    <input
+      id="volume-slider"
+      class="volume-slider"
+      type="range"
+      min="0"
+      max="1"
+      step="0.05"
+      value="0.7"
+      aria-label="Volume"
+    />
+  </div>
+
+  <!-- ─────────────────────────────────────────
+       TRANSITION OVERLAY
+       Used by transitions.js for scene wipes.
+  ──────────────────────────────────────────── -->
+  <div id="transition-overlay" class="transition-overlay" aria-hidden="true"></div>
+
+  <!-- ─────────────────────────────────────────
+       CONFETTI / PARTICLES CANVAS
+       Shared canvas for particle effects.
+  ──────────────────────────────────────────── -->
+  <canvas id="fx-canvas" class="fx-canvas" aria-hidden="true"></canvas>
+
+  <!-- ─────────────────────────────────────────
+       IMPORT MAP
+       Maps bare specifiers used by ES Module scenes.
+       Three.js r168 + GSAP 3.12.5 — no bundler required.
+  ──────────────────────────────────────────── -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":                  "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.min.js",
+      "three/addons/":          "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/",
+      "gsap":                   "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
+      "gsap/ScrollTrigger":     "https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.js",
+      "gsap/TextPlugin":        "https://cdn.jsdelivr.net/npm/gsap@3.12.5/TextPlugin.js"
+    }
+  }
+  </script>
+
+  <!-- Application entry point (ES Module) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

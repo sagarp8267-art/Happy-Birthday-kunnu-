@@ -1,0 +1,393 @@
+/* ============================================================
+   BIRTHDAY SURPRISE — main.css
+   Design Token System + Global Styles
+   ============================================================
+
+   Color Palette (cinematic deep-night romance):
+   --c-void         Deep midnight backdrop
+   --c-dusk         Dark atmospheric layer
+   --c-blush        Warm rose — primary accent
+   --c-petal        Soft pink highlight
+   --c-gold         Warm gold — celebration / candles
+   --c-cream        Near-white for text on dark
+   --c-mist         Subtle light for UI chrome
+
+   Typography:
+   --font-display   "Cormorant Garamond" — romantic, cinematic headings
+   --font-body      "DM Sans"           — clean, readable UI
+   ============================================================ */
+
+/* ── Design Tokens ──────────────────────────────────────────── */
+:root {
+  /* Colors */
+  --c-void:   #0a0612;
+  --c-dusk:   #160d24;
+  --c-blush:  #e8637a;
+  --c-petal:  #f2a0ae;
+  --c-gold:   #f0c96e;
+  --c-cream:  #fdf6ef;
+  --c-mist:   rgba(253, 246, 239, 0.08);
+
+  /* Semantic aliases */
+  --bg-base:       var(--c-void);
+  --bg-layer:      var(--c-dusk);
+  --accent:        var(--c-blush);
+  --accent-soft:   var(--c-petal);
+  --accent-warm:   var(--c-gold);
+  --text-primary:  var(--c-cream);
+  --text-subtle:   rgba(253, 246, 239, 0.55);
+  --border-subtle: rgba(253, 246, 239, 0.10);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Type scale (major third × 1.25) */
+  --text-xs:   0.702rem;   /* ~11px */
+  --text-sm:   0.878rem;   /* ~14px */
+  --text-base: 1rem;       /* 16px  */
+  --text-md:   1.25rem;    /* 20px  */
+  --text-lg:   1.563rem;   /* 25px  */
+  --text-xl:   1.953rem;   /* 31px  */
+  --text-2xl:  2.441rem;   /* 39px  */
+  --text-3xl:  3.052rem;   /* 49px  */
+  --text-4xl:  4.768rem;   /* 76px  */
+
+  /* Spacing */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Easing */
+  --ease-smooth:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --ease-dramatic: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Durations */
+  --dur-fast:   180ms;
+  --dur-base:   350ms;
+  --dur-slow:   700ms;
+  --dur-crawl: 1400ms;
+
+  /* Z-index layers */
+  --z-scene:      1;
+  --z-companion: 10;
+  --z-ui:        20;
+  --z-transition:30;
+  --z-fx:         5;
+
+  /* ── Unified scene background ───────────────────────────────
+     All non-Three.js scenes should use var(--scene-bg-default)
+     as their root background so every scene shares one token.
+     Override per-scene by setting the variable on the scene
+     element itself:  style="--scene-bg-default: <value>"       */
+  --scene-bg-default: radial-gradient(
+    ellipse at 50% 60%,
+    var(--c-dusk)  0%,
+    var(--c-void) 70%
+  );
+
+  /* ── Companion position tokens ──────────────────────────────
+     Scenes that need the companion in a non-default spot should
+     add a class or inline style that overrides these two vars.
+     Example:  style="--companion-bottom:40%; --companion-right:5%"  */
+  --companion-bottom: var(--space-6);
+  --companion-right:  var(--space-6);
+}
+
+/* ── Reset & Base ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 300;
+  line-height: 1.65;
+  min-height: 100dvh;
+  overflow: hidden;       /* Scenes manage their own scroll */
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Typography ─────────────────────────────────────────────── */
+.display {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+p {
+  max-width: 62ch;
+  line-height: 1.75;
+}
+
+/* ── Loading Screen ─────────────────────────────────────────── */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-transition);
+  background: var(--bg-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+
+.loading-screen.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-heart {
+  width: 40px;
+  height: 40px;
+  background: var(--accent);
+  clip-path: path('M20,35 C20,35 2,20 2,11 C2,6 6,2 11,2 C14,2 17,4 20,7 C23,4 26,2 29,2 C34,2 38,6 38,11 C38,20 20,35 20,35 Z');
+  animation: heartbeat 1.2s var(--ease-spring) infinite;
+}
+
+/* ── Scene Container ────────────────────────────────────────── */
+.scene-container {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-scene);
+  overflow: hidden;
+}
+
+/* ── Individual Scene Shell ─────────────────────────────────── */
+.scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-slow) var(--ease-out);
+  will-change: opacity;
+}
+
+.scene.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Companion ──────────────────────────────────────────────── */
+.companion {
+  position: fixed;
+  bottom: var(--companion-bottom);
+  right:  var(--companion-right);
+  z-index: var(--z-companion);
+  width: 80px;
+  height: 80px;
+  pointer-events: none;  /* Companion is non-blocking by default */
+  user-select: none;
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-spring),
+              bottom var(--dur-slow) var(--ease-smooth),
+              right  var(--dur-slow) var(--ease-smooth);
+}
+
+.companion--hidden {
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+}
+
+.companion--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.companion__body {
+  font-size: 40px;
+  line-height: 1;
+  text-align: center;
+  will-change: transform;
+}
+
+.companion__bubble {
+  position: absolute;
+  bottom: calc(100% + var(--space-2));
+  right: 0;
+  background: var(--c-dusk);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px 12px 0 12px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+  max-width: 200px;
+  min-width: 100px;
+  opacity: 0;
+  padding: var(--space-2) var(--space-3);
+  pointer-events: none;
+  transform: translateY(6px) scale(0.95);
+  transition: opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-spring);
+  white-space: normal;
+}
+
+.companion__bubble--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ── Transition Overlay ─────────────────────────────────────── */
+.transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-transition);
+  background: var(--bg-base);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.transition-overlay.is-active {
+  pointer-events: auto;
+}
+
+/* ── FX Canvas ──────────────────────────────────────────────── */
+.fx-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-fx);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ── Audio Controls ─────────────────────────────────────────── */
+.audio-controls {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: var(--z-ui);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--c-mist);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 2rem;
+  padding: var(--space-2) var(--space-3);
+}
+
+.audio-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: var(--text-md);
+  line-height: 1;
+  padding: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+
+.audio-btn:hover  { opacity: 0.7; }
+.audio-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--border-subtle);
+  border-radius: 1rem;
+  cursor: pointer;
+  height: 3px;
+  outline: none;
+  width: 64px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--accent);
+  border-radius: 50%;
+  height: 12px;
+  width: 12px;
+}
+
+.volume-slider::-moz-range-thumb {
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  height: 12px;
+  width: 12px;
+}
+
+/* ── Utility classes ────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.u-center { text-align: center; }
+.u-full   { width: 100%; height: 100%; }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .companion {
+    --companion-bottom: var(--space-4);
+    --companion-right:  var(--space-4);
+    width: 60px;
+    height: 60px;
+  }
+
+  .audio-controls {
+    top: var(--space-3);
+    right: var(--space-3);
+  }
+
+  .volume-slider { width: 48px; }
+}
+
+/* ── Reduced Motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html { scroll-behavior: auto; }
+}

@@ -1,0 +1,159 @@
+/* ============================================================
+   BIRTHDAY SURPRISE — animations.css
+   Reusable keyframe animations + animation utility classes.
+   All animations here are GPU-friendly (transform / opacity).
+   ============================================================ */
+
+/* ── Keyframes ──────────────────────────────────────────────── */
+
+/* Pulse for the loading heart */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  30%       { transform: scale(1.18); }
+  60%       { transform: scale(0.94); }
+}
+
+/* Generic fade in */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Fade in rising from below */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade in falling from above */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Gentle float (companion idle, balloons) */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* Drift side to side */
+@keyframes drift {
+  0%, 100% { transform: translateX(0) rotate(-2deg); }
+  50%       { transform: translateX(6px) rotate(2deg); }
+}
+
+/* Companion idle bob */
+@keyframes companionIdle {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%       { transform: translateY(-6px) rotate(1deg); }
+}
+
+/* Companion celebrate / bounce */
+@keyframes companionCelebrate {
+  0%   { transform: translateY(0) scale(1); }
+  20%  { transform: translateY(-18px) scale(1.08); }
+  40%  { transform: translateY(0) scale(0.95); }
+  60%  { transform: translateY(-10px) scale(1.04); }
+  80%  { transform: translateY(0) scale(0.98); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+/* Companion surprised pop */
+@keyframes companionSurprised {
+  0%   { transform: scale(1); }
+  25%  { transform: scale(1.2) rotate(6deg); }
+  50%  { transform: scale(0.9) rotate(-4deg); }
+  75%  { transform: scale(1.05) rotate(2deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+/* Gentle sparkle / twinkle for particles */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50%       { opacity: 1;   transform: scale(1.2); }
+}
+
+/* Particle rise (confetti) */
+@keyframes particleRise {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(-80px) rotate(360deg); }
+}
+
+/* Scale in with spring overshoot */
+@keyframes scaleIn {
+  0%   { opacity: 0; transform: scale(0.6); }
+  70%  { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Glow pulse (heart, candle flame) */
+@keyframes glowPulse {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 6px var(--accent)); }
+  50%       { filter: brightness(1.2) drop-shadow(0 0 20px var(--accent)); }
+}
+
+/* Candle flicker */
+@keyframes candleFlicker {
+  0%, 100% { transform: scaleY(1) scaleX(1) translateY(0); opacity: 1; }
+  20%       { transform: scaleY(1.08) scaleX(0.92) translateY(-2px); opacity: 0.95; }
+  40%       { transform: scaleY(0.94) scaleX(1.06) translateY(1px); opacity: 1; }
+  60%       { transform: scaleY(1.06) scaleX(0.96) translateY(-1px); opacity: 0.97; }
+  80%       { transform: scaleY(0.96) scaleX(1.02) translateY(0); opacity: 0.98; }
+}
+
+/* Smoke drift upward */
+@keyframes smokeDrift {
+  0%   { opacity: 0.6; transform: translateY(0) translateX(0) scaleX(1); }
+  100% { opacity: 0; transform: translateY(-40px) translateX(6px) scaleX(1.5); }
+}
+
+/* Text letter reveal */
+@keyframes letterReveal {
+  from { opacity: 0; transform: translateY(8px); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+
+
+/* Transition overlay wipe */
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes overlayFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+
+/* ── Animation Utility Classes ──────────────────────────────── */
+/* Apply these to elements for one-shot or looping animations. */
+
+.anim-fade-in   { animation: fadeIn  var(--dur-slow)  var(--ease-out) both; }
+.anim-fade-up   { animation: fadeUp  var(--dur-slow)  var(--ease-out) both; }
+.anim-fade-down { animation: fadeDown var(--dur-slow) var(--ease-out) both; }
+.anim-scale-in  { animation: scaleIn var(--dur-slow)  var(--ease-spring) both; }
+
+.anim-float     { animation: float   3s var(--ease-smooth) infinite; }
+.anim-drift     { animation: drift   4s var(--ease-smooth) infinite; }
+.anim-twinkle   { animation: twinkle 2s var(--ease-smooth) infinite; }
+
+.anim-companion-idle      { animation: companionIdle      2.5s var(--ease-smooth) infinite; }
+.anim-companion-celebrate { animation: companionCelebrate 0.8s var(--ease-spring) forwards; }
+.anim-companion-surprised { animation: companionSurprised 0.6s var(--ease-spring) forwards; }
+
+.anim-candle-flicker { animation: candleFlicker 1.8s var(--ease-smooth) infinite; }
+.anim-glow-pulse     { animation: glowPulse     2.4s var(--ease-smooth) infinite; }
+.anim-smoke          { animation: smokeDrift    2s   var(--ease-out)    forwards; }
+
+/* Staggered reveal helpers — set --delay on element via inline style */
+.anim-stagger { animation-delay: var(--delay, 0ms); }
+
+/* Reduced-motion: strip all animation/transition overrides */
+@media (prefers-reduced-motion: reduce) {
+  [class*="anim-"] {
+    animation: none !important;
+  }
+}

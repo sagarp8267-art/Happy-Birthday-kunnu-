@@ -1,0 +1,220 @@
+/**
+ * css/gif-overlays.css
+ * Responsive GIF overlay styles for all birthday surprise scenes.
+ * All GIFs are non-blocking (pointer-events: none) and positioned safely.
+ */
+
+/* ── Shared gif-overlay base ─────────────────────────────────── */
+.gif-overlay {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 4;
+  border-radius: 12px;
+  opacity: 0;                       /* hidden until JS fades in */
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 100%;
+}
+.gif-overlay.is-visible {
+  opacity: 1;
+}
+
+/* ── 1. Balloons scene (ballon sectio 1.gif) ──────────────────── */
+.scene-balloons .gif-balloon-ambient {
+  width: clamp(100px, 18vw, 170px);
+  bottom: 6%;
+  left: 4%;
+  z-index: 4;
+  border-radius: 16px;
+  filter: drop-shadow(0 6px 24px rgba(200, 100, 200, 0.45));
+}
+
+/* ── 2. Cake scene (cake section 1 .gif & after cake cuting.gif) ─ */
+/* Ambient: panda holding lit cake */
+.scene-cake .gif-cake-ambient {
+  width: clamp(80px, 15vw, 140px);
+  bottom: 8%;
+  left: 4%;
+  z-index: 6;           /* above canvas(0) + HUD(5) */
+  border-radius: 14px;
+  filter: drop-shadow(0 6px 20px rgba(240, 200, 100, 0.45));
+}
+
+/* Post-cut: panda & bear eating cake (placed in corner safely away from 3D cake & CTA) */
+.scene-cake .gif-cake-cut {
+  width: clamp(110px, 20vw, 180px);
+  bottom: 8%;
+  left: 4%;
+  z-index: 7;
+  border-radius: 16px;
+  filter: drop-shadow(0 8px 30px rgba(240, 120, 80, 0.55));
+}
+
+/* ── 3. Letter scene (letter reading time 1.gif & 2.gif) ──────── */
+.scene-letter .gif-letter-1 {
+  width: clamp(80px, 14vw, 135px);
+  bottom: 8%;
+  left: 3%;
+  z-index: 12;
+  border-radius: 14px;
+  filter: drop-shadow(0 6px 20px rgba(242, 160, 174, 0.45));
+}
+.scene-letter .gif-letter-2 {
+  width: clamp(80px, 14vw, 135px);
+  bottom: 8%;
+  right: 3%;
+  z-index: 12;
+  border-radius: 14px;
+  filter: drop-shadow(0 6px 20px rgba(242, 160, 174, 0.45));
+}
+
+/* ── 4. Photo World scene (photo world section 1.gif & 2.gif) ─── */
+.scene-photo-world .gif-photo-1 {
+  width: clamp(90px, 16vw, 150px);
+  bottom: 10%;
+  left: 3%;
+  z-index: 10;
+  border-radius: 12px;
+  filter: drop-shadow(0 6px 20px rgba(150, 100, 255, 0.45));
+}
+.scene-photo-world .gif-photo-2 {
+  width: clamp(75px, 12vw, 115px);
+  bottom: 10%;
+  right: 3%;
+  z-index: 10;
+  border-radius: 12px;
+  filter: drop-shadow(0 6px 20px rgba(150, 100, 255, 0.45));
+}
+
+/* ── 5. Gift section (gift section.gif) ───────────────────────── */
+/* Positioned in corner so it never covers title, hints, or 3D gifts */
+.scene-surprise .gif-gift {
+  width: clamp(85px, 15vw, 140px);
+  bottom: 6%;
+  left: 4%;
+  z-index: 6;
+  border-radius: 14px;
+  filter: drop-shadow(0 6px 22px rgba(220, 100, 180, 0.5));
+}
+
+/* ── 6. Finale scene (final suprise .gif & final suprise.gif) ─── */
+/* Handled directly inside Polaroid photo frames in finale.js with captions */
+.finale-photo-img {
+  width: clamp(130px, 15vw, 190px);
+  height: clamp(150px, 18vw, 225px);
+  object-fit: cover;
+  border: 5px solid #fdf6ef;
+  border-radius: 4px;
+  display: block;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 3px 0 #e0d0c0;
+}
+
+/* ── 7. Password scene (hammer-bully.gif) ──────────────────────── */
+.scene-password .gif-password-wrong {
+  width: clamp(85px, 16vw, 135px);
+  bottom: 8%;
+  left: 5%;
+  z-index: 10;
+  border-radius: 14px;
+  filter: drop-shadow(0 6px 22px rgba(232, 99, 122, 0.55));
+  transform: translateY(12px) scale(0.9);
+}
+.scene-password .gif-password-wrong.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.pwd-hint-btn {
+  font-size: var(--text-xs);
+  color: var(--text-subtle);
+  margin-top: var(--space-4);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  opacity: 0.65;
+  transition: opacity 0.2s ease, color 0.2s ease;
+  user-select: none;
+}
+.pwd-hint-btn:hover {
+  opacity: 1;
+  color: var(--accent-warm);
+}
+
+/* ── Quiz scene wrong answer bonus (hammer-bully.gif) ─────────── */
+.scene-quiz .gif-quiz-wrong {
+  width: clamp(80px, 15vw, 120px);
+  bottom: 8%;
+  left: 4%;
+  z-index: 10;
+  border-radius: 12px;
+  filter: drop-shadow(0 6px 20px rgba(231, 76, 60, 0.5));
+  transform: scale(0.9);
+}
+.scene-quiz .gif-quiz-wrong.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Awards scene teaser card bonus (hammer-bully.gif) ────────── */
+.scene-awards .gif-awards-teaser {
+  width: clamp(90px, 16vw, 130px);
+  bottom: 8%;
+  right: 4%;
+  z-index: 10;
+  border-radius: 12px;
+  filter: drop-shadow(0 6px 20px rgba(240, 201, 110, 0.45));
+  transform: scale(0.9);
+}
+.scene-awards .gif-awards-teaser.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── Responsive adjustments for mobile ────────────────────────── */
+@media (max-width: 768px) {
+  .scene-balloons .gif-balloon-ambient {
+    width: clamp(80px, 22vw, 120px);
+    bottom: 4%;
+    left: 3%;
+  }
+
+  .scene-cake .gif-cake-ambient,
+  .scene-cake .gif-cake-cut {
+    width: clamp(75px, 20vw, 110px);
+    bottom: 5%;
+    left: 3%;
+  }
+
+  .scene-letter .gif-letter-1 {
+    width: clamp(60px, 16vw, 90px);
+    bottom: 3%;
+    left: 2%;
+  }
+  .scene-letter .gif-letter-2 {
+    width: clamp(60px, 16vw, 90px);
+    bottom: 3%;
+    right: 2%;
+  }
+
+  .scene-photo-world .gif-photo-1 {
+    width: clamp(80px, 24vw, 120px);
+    bottom: 6%;
+    left: 3%;
+  }
+  .scene-photo-world .gif-photo-2 {
+    width: clamp(60px, 18vw, 90px);
+    bottom: 6%;
+    right: 3%;
+  }
+
+  .scene-surprise .gif-gift {
+    width: clamp(70px, 20vw, 100px);
+    bottom: 4%;
+    left: 3%;
+  }
+
+  .scene-password .gif-password-wrong {
+    width: clamp(75px, 20vw, 105px);
+    bottom: 5%;
+    left: 4%;
+  }
+}
